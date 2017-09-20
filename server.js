@@ -1,50 +1,15 @@
-if (!process.env.NODE_ENV) process.env.NODE_ENV='development'
+var http = require("http");
 
-var express = require('express')
-  , http = require('http')
-  , path = require('path')
-  , reload = require('reload')
-  , cars = require('./server/api/cars')
-  , colors = require('colors')
+http.createServer(function(request, response) {
 
-var app = express()
+    // Send the HTTP header 
+    // HTTP Status: 200 : OK
+    // Content Type: text/plain
+    response.writeHead(200, { 'Content-Type': 'text/plain' });
 
-var clientDir = path.join(__dirname, 'client')
+    // Send the response body as "Hello World"
+    response.end('Hello World\n');
+}).listen(8081);
 
-app.configure(function() {
-  app.set('port', process.env.PORT || 3000)
-  app.use(express.favicon())
-  app.use(express.logger('dev'))
-  app.use(express.bodyParser()) 
-  app.use(app.router) 
-  app.use(express.static(clientDir)) 
-})
-
-app.configure('development', function(){
-  app.use(express.errorHandler());
-})
-
-app.get('/', function(req, res) {
-  res.sendfile(path.join(clientDir, 'index.html'))
-})
-
-app.get('/api/cars', cars.list) 
-
-app.get('/api/cars/total', cars.total) //placement matters
-
-app.get('/api/cars/:id', cars.read) //sometimes called 'show'
-app.post('/api/cars', cars.create)
-app.put('/api/cars/:id', cars.update)
-app.del('/api/cars/:id', cars.del)
-
-
-
-var server = http.createServer(app)
-
-reload(server, app)
-
-server.listen(app.get('port'), function(){
-  console.log("Web server listening in %s on port %d", colors.red(process.env.NODE_ENV), app.get('port'));
-});
-
-
+// Console will print the message
+console.log('Server running at http://127.0.0.1:8081/');
