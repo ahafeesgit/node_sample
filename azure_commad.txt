@@ -1,0 +1,36 @@
+creat a user set
+-----------------
+az webapp deployment user set --user-name ahafees --password hfsluelue@1990
+
+create resource group
+----------------------
+az group create --name nodesample --location "West Europe"
+
+get location near you
+----------------------
+az appservice list-locations
+
+create plan
+------------
+az appservice plan create --name nodesampleplan --resource-group nodesample --sku FREE
+
+create an app
+-------------
+az webapp create --name ahafeesnodesample --resource-group nodesample --plan nodesampleplan --deployment-local-git
+
+url
+---
+http://ahafeesnodesample.azurewebsites.net
+
+az webapp deployment source config-local-git --name ahafeesnodesample --resource-group nodesample --query url --output tsv
+https://ahafees@ahafeesnodesample.scm.azurewebsites.net/ahafeesnodesample.git
+
+
+git config in local system
+--------------------------
+
+git remote add azure https://ahafeesnodesample.scm.azurewebsites.net/ahafeesnodesample.git
+git push azure master
+
+
+
